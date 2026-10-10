@@ -1,6 +1,6 @@
 # SQL – Exploratory & Business Analysis
 
-Exploratory analysis of the Olist dataset in **T-SQL (SQL Server)**. [`Business_question.sql`](Business_question.sql) contains 9 business questions about sales, products, customers, delivery and sellers. 
+Exploratory analysis of the Olist dataset in **SQL Server**. [`Business_question.sql`](Business_question.sql) contains 9 business questions about sales, products, customers, delivery and sellers. 
 
 ## Setup
 1. Run `notebooks/01_data_cleaning.ipynb` to produce the cleaned CSV files.
