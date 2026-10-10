@@ -4,7 +4,7 @@ Exploratory analysis of the Olist dataset in **T-SQL (SQL Server)**. [`Business_
 
 ## Setup
 1. Run `notebooks/01_data_cleaning.ipynb` to produce the cleaned CSV files.
-2. Import them into SQL Server as `[dbo].[order_cleaned]`, `[order_items_cleaned]`, `[products_cleaned]`, `[customer_cleaned]`, `[review_cleaned]`, `[payments_cleaned]`, `[sellers_cleaned]`.
+2. Import them into SQL Server as `[dbo].[order_cleaned]`, `[order_items_cleaned]`, `[products_cleaned]`, `[customer_cleaned]`, `[review_cleaned]`, `[payments_cleaned]`, `[sellers_cleaned]`,`[order_cleaned]`,`[geolocation_cleaned]`,`[category_cleaned]`.
 3. Run `Business_question.sql`. Each query starts with a comment containing its question number and text.
 
 ## Overview
