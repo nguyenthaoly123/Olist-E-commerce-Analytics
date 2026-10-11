@@ -72,9 +72,9 @@ Olist-E-Commerce-Analytics/
 │   └── cleaned/              # Cleaned datasets for analysis
 │
 ├── notebooks/
-│   ├── 01_data_quality_check.ipynb
-│   ├── 02_data_cleaning.ipynb
-│   ├── 03_exploratory_data_analysis.ipynb
+│   ├── 01_data_cleaning.ipynb
+│   ├── 02_exploratory_data_analysis.ipynb
+│   ├── 03_customer_unique_id.ipynb
 │   ├── 04_customer_features.ipynb
 │   └── 05_repeat_purchase_model.ipynb
 │
@@ -84,7 +84,7 @@ Olist-E-Commerce-Analytics/
 │   
 │
 ├── powerbi/
-│   ├──
+│   ├── 
 │   ├── Page1_Overview.png
 │   ├── Page2_Customer_Retention.png
 │   ├── Page3_Customer_Experience.png
