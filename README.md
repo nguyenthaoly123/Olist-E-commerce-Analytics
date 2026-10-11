@@ -68,144 +68,65 @@ This page compares category revenue and seller-level performance using revenue, 
 Olist-E-Commerce-Analytics/
 │
 ├── data/
-│   ├── raw/                  # Original Kaggle datasets
-│   └── cleaned/              # Cleaned datasets for analysis
+│   ├── data_dictionary.md                 
+│   └── readme.md            
 │
 ├── notebooks/
 │   ├── 01_data_cleaning.ipynb
-│   ├── 02_exploratory_data_analysis.ipynb
-│   ├── 03_customer_unique_id.ipynb
-│   ├── 04_customer_features.ipynb
-│   └── 05_repeat_purchase_model.ipynb
+│   ├── 02_customer_unique_id.ipynb
+│   ├── 03_customer_ML.ipynb
+│   ├── 04_train_test.ipynb
+│   └── readme.md
 │
 ├── sql/
-│   ├── business_analysis.sql
+│   ├── business_question.sql
+|   ├── readme.md
 │  
 │   
 │
 ├── powerbi/
-│   ├── 
-│   ├── Page1_Overview.png
-│   ├── Page2_Customer_Retention.png
-│   ├── Page3_Customer_Experience.png
-│   └── Page4_Seller_Performance.png
+│   ├── screenshots
+|       ├── Page1_Overview.png
+│       ├── Page2_Customer_Retention.png
+│       ├── Page3_Customer_Experience.png
+│       └── Page4_Seller_Performance.png
+│   ├──kpi.definitions.md
+│   
+│   
+│   
 │
 ├── reports/
 │   └── business_insights.md
+|   ├── recommendations.pdf
 │
-├── models/
-│   └── repeat_purchase_model.pkl
-│
-|
-├── requirements.txt
-├── kpi_definitions.md
-├── recommendations.pdf
 └── README.md
 ```
 
-**Directory descriptions**
+### Directory and File Descriptions
 
-- `data/raw/`: Original datasets downloaded from Kaggle.
-- `data/cleaned/`: Cleaned and validated data used in SQL, Power BI, and machine learning.
-- `notebooks/`: Sequential notebooks for data quality checks, cleaning, EDA, customer feature engineering, and model development.
-- `sql/`: SQL scripts for data validation, joins, business questions, and KPI verification.
-- `powerbi/`: Power BI report and exported dashboard screenshots.
-- `reports/`: Business insights and analytical findings.
-- `models/`: Saved model artifacts and, where necessary, preprocessing objects.
-- `app.py`: Streamlit application for repeat-purchase prediction.
-- `requirements.txt`: Python dependencies required to run the project.
-- `kpi_definitions.md`: Definitions and calculation logic for dashboard KPIs.
-- `recommendations.pdf`: Business recommendations derived from the analysis.
+| Directory / File | Description |
+|---|---|
+| `data/` | Documents the datasets used in the project and their data structure. |
+| `data/data_dictionary.md` | Describes dataset columns, data types, definitions, and relevant business meanings. |
+| `data/readme.md` | Explains the data source, download instructions, and dataset organization. |
+| `notebooks/` | Contains the Python workflow for data preparation, customer feature engineering, and machine learning. |
+| `notebooks/01_data_cleaning.ipynb` | Checks data quality, handles missing values and duplicates, and prepares cleaned datasets. |
+| `notebooks/02_customer_unique_id.ipynb` | Aggregates customer behavior using `customer_unique_id` and creates customer-level analytical features. |
+| `notebooks/03_customer_ML.ipynb` | Prepares the customer-level modeling dataset, including input features and the `repeat_90d` target. |
+| `notebooks/04_train_test.ipynb` | Splits the data, trains and evaluates classification models, and compares model performance. |
+| `notebooks/readme.md` | Documents the notebook execution order and explains the purpose of each notebook. |
+| `sql/` | Contains SQL queries for answering business questions and validating analytical findings. |
+| `sql/business_question.sql` | Uses SQL joins, aggregations, and filtering to investigate revenue, customer retention, delivery performance, and seller performance. |
+| `sql/readme.md` | Explains the SQL scripts, database setup, and how to execute the queries. |
+| `powerbi/` | Contains the Power BI dashboard documentation and exported report screenshots. |
+| `powerbi/screenshots/` | Stores screenshots of the four dashboard pages for previewing the project on GitHub. |
+| `powerbi/kpi.definitions.md` | Defines dashboard KPIs, calculation logic, and business interpretations. |
+| `reports/` | Contains the project's business findings and recommended actions. |
+| `reports/business_insights.md` | Summarizes key findings using the Finding → Evidence → So what structure. |
+| `reports/recommendations.pdf` | Presents actionable recommendations for customer retention, remarketing, delivery performance, and seller management. |
+| `README.md` | Introduces the project, business problem, key findings, technology stack, workflow, and results. |
 
-*The structure above is the intended project layout. Keep only files and folders that actually exist in the published repository.*
-
-## 6. How to Run
-
-### Prerequisites
-
-- Python 3.10 or a compatible version supported by the project's dependencies.
-- Git.
-- SQL Server and SSMS if you want to execute the SQL scripts.
-- Power BI Desktop if you want to open and explore the `.pbix` report.
-
-### Step 1 — Clone the repository
-
-```bash
-git clone https://github.com/<your-username>/<your-repository>.git
-cd Olist-E-Commerce-Analytics
-```
-
-Replace the repository URL and directory name with your actual GitHub repository details.
-
-### Step 2 — Download the datasets
-
-Download the Olist Brazilian E-Commerce Public Dataset from Kaggle:
-
-[Kaggle — Brazilian E-Commerce Public Dataset by Olist](https://www.kaggle.com/datasets/olistbr/brazilian-ecommerce)
-
-Place the original CSV files in `data/raw/`.
-
-The raw files should include the relevant customer, order, order item, payment, review, product, seller, and product-category translation datasets.
-
-Do not commit large raw datasets to GitHub unless their licensing, repository size, and distribution requirements permit it.
-
-### Step 3 — Install dependencies
-
-Create and activate a virtual environment:
-
-```bash
-python -m venv .venv
-```
-
-Windows:
-
-```bash
-.venv\Scripts\activate
-```
-
-Install the required packages:
-
-```bash
-pip install -r requirements.txt
-```
-
-### Step 4 — Run the notebooks in order
-
-Execute the notebooks sequentially:
-
-1. `01_data_quality_check.ipynb` — Inspect data types, missing values, duplicates, and key constraints.
-2. `02_data_cleaning.ipynb` — Clean and validate the source datasets.
-3. `03_exploratory_data_analysis.ipynb` — Explore customer, order, product, delivery, and review patterns.
-4. `04_customer_features.ipynb` — Build customer-level features and the repeat-purchase target.
-5. `05_repeat_purchase_model.ipynb` — Train, tune, and evaluate the classification models.
-
-Ensure that output paths in the notebooks point to the directories used in your local environment.
-
-### Step 5 — Run the SQL analysis
-
-Import the relevant cleaned datasets into SQL Server and execute the scripts in `sql/`.
-
-Update connection settings and database names as required by your environment. Validate the SQL outputs against the corresponding Power BI measures.
-
-### Step 6 — Open the Power BI dashboard
-
-Open `powerbi/Olist_Dashboard.pbix` in Power BI Desktop.
-
-Update the data source paths or database connection, refresh the model, and check that slicers and measures work correctly.
-
-### Step 7 — Run the Streamlit application
-
-After training the model and saving the model artifact:
-
-```bash
-streamlit run app.py
-```
-
-The application should load the saved model and its associated preprocessing pipeline to generate predictions from customer features.
-
-**Important:** The saved model, preprocessing objects, and `app.py` must use the same feature names, column order, and transformations as the training pipeline.
-
-## 7. Machine Learning Results
+## 6. Machine Learning Results
 
 ### Objective
 
@@ -233,11 +154,11 @@ The exact target construction must account for customer eligibility and the avai
 
 | Model | Accuracy | Precision | Recall | F1-score | ROC-AUC | PR-AUC |
 |---|---:|---:|---:|---:|---:|---:|
-| Logistic Regression | TBD | TBD | TBD | TBD | TBD | TBD |
-| Random Forest | TBD | TBD | TBD | TBD | TBD | TBD |
-| HistGradientBoosting | TBD | TBD | TBD | TBD | TBD | TBD |
+| Logistic Regression | 0.5332 | 0.0243 | 0.5676 | 0.0467 | 0.588 | 0.0321 |
+| Random Forest | 0.8109 | 0.0247 | 0.2178 | 0.0443 | 0.5636 | 0.0251 |
+| HistGradientBoosting | 0.9158 | 0.0218 | 0.0726 | 0.0335 | 0.5495 | 0.0274 |
 
-**Best model:** To be determined after evaluation.
+**Best model:** Logistic Regression .
 
 **Primary evaluation metric:** PR-AUC, supported by Recall, Precision, F1-score, and ROC-AUC.
 
@@ -251,9 +172,8 @@ Because repeat purchases are relatively rare, accuracy alone may be misleading. 
 - Customer-level features must not contain information observed after the prediction point.
 - Repeat-purchase labels depend on the chosen time window and customer eligibility rules.
 - Model performance on historical Olist data may not generalize to other marketplaces or future customer populations.
-- Predicted probabilities should not be treated as calibrated probabilities unless calibration has been evaluated.
 
-**Results will be added after the final model comparison.** No model performance is claimed until the test-set metrics have been calculated.
+
 
 ## 8. Reports and Documentation
 
@@ -278,4 +198,3 @@ Information Technology Student | Aspiring Data Analyst / Data Scientist
 
 GitHub: [github.com/nguyenthaoly123](https://github.com/nguyenthaoly123)
 
-This project demonstrates an end-to-end analytics workflow, from data quality checks and SQL analysis to dashboard development, customer-level modeling, and business recommendations. 
