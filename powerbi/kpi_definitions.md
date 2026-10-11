@@ -1,7 +1,5 @@
 # Olist E-Commerce Performance Dashboard
 
-## 1. Dashboard Overview
-
 ### Project Objective
 
 Analyze Olist's Brazilian e-commerce performance to understand sales trends, customer retention, customer experience, and seller performance. The dashboard aims to identify business opportunities to improve repeat purchases, delivery performance, and revenue generation.
@@ -27,662 +25,702 @@ The KPI values and charts change according to the selected filters.
 
 ---
 
-# Page 1 – Overview
+# I.Page 1 – Overview 
+<img width="1045" height="608" alt="Page1_Overview" src="https://github.com/user-attachments/assets/8711a974-bbd8-40f4-b57a-251ddb76116f" />
 
-## 2. Purpose
 
-Provide a high-level view of Olist's sales performance, order fulfillment, customer reviews, product category revenue, and delivery duration.
+## 1. Key Performance Indicators (KPIs)
 
-## 2.1 Key Performance Indicators
+### 1.1. Revenue
+- **Value:** 13.59M
+- **Definition:** Total revenue generated from product sales.
+- **Unit:** BRL (Brazilian Real).
+- **Insight:** Revenue increased from approximately 0.7M in Q1 2017 to 2.9M in Q2 2018, indicating substantial growth in sales activity during the observed period.
 
-### Revenue
+### 1.2. Total Order
+- **Value:** 99K
+- **Definition:** Total number of unique orders.
+- **Insight:** Order volume generally increased alongside revenue, suggesting that growth was driven partly by an increase in the number of orders.
 
-- **Displayed value:** 13.59M
-- **Definition:** Total revenue from order items.
-- **Suggested DAX:**
+### 1.3. Average Order Value (AOV)
+- **Value:** 136.71 BRL
+- **Definition:** Average product revenue generated per order.
+- **Insight:** Customers spent an average of 136.71 BRL per order. This metric helps distinguish revenue growth driven by order volume from growth driven by spending per order.
 
-```dax
-Revenue =
-SUM(order_items_cleaned[price])
-```
+### 1.4. Average Review Score
+- **Value:** 4.09 / 5
+- **Definition:** Average customer review rating.
+- **Insight:** The average rating of 4.09 indicates generally positive customer feedback, although the remaining gap to the maximum score of 5 suggests opportunities to improve the shopping and delivery experience.
 
-**Business purpose:**
-- Monitor overall sales performance.
-- Compare revenue across quarters and product categories.
-- Identify periods of growth or decline.
-
-### Total Order
-
-- **Displayed value:** 99K
-- **Definition:** Number of distinct orders.
-
-```dax
-Total Order =
-DISTINCTCOUNT(order_cleaned[order_id])
-```
-
-**Business purpose:**
-- Measure order volume.
-- Track changes in purchasing activity.
-- Compare sales performance across periods.
-
-### Average Order Value (AOV)
-
-- **Displayed value:** 136.71
-- **Definition:** Average revenue per order.
-
-```dax
-AOV =
-DIVIDE(
-    [Revenue],
-    [Total Order],
-    0
-)
-```
-
-**Business purpose:**
-- Measure the average revenue generated per order.
-- Compare order value across customer groups and periods.
-- Support product bundling and cross-selling decisions.
-
-### Average Review Score
-
-- **Displayed value:** 4.09
-- **Definition:** Average customer review score on a five-point scale.
-
-```dax
-Avg Review Score =
-AVERAGE(review_cleaned[review_score])
-```
-
-**Business purpose:**
-- Monitor customer satisfaction.
-- Identify potential service quality issues.
-- Support analysis of the relationship between reviews and retention.
-
-### Repeat Rate
-
-- **Displayed value:** 3.12%
-- **Definition:** Percentage of unique customers who placed more than one order during the available dataset period.
-
-The exact DAX should match the customer-level table and repeat flag used in the report.
-
-**Business purpose:**
-- Measure customer retention.
-- Identify opportunities to encourage customers to return.
-- Provide context for the customer analysis page.
-
-**Important distinction:** This page's `Repeat Rate` uses the `repeat_customer` definition over the available dataset period. It is not the same as `repeat_90d`, which measures repeat purchasing within 90 days of the first order.
-
-## 2.2 Supporting Visualizations
-
-### Revenue and Total Orders by Year and Quarter
-
-**Chart type:** Combination chart.
-
-**Purpose:**
-- Compare quarterly revenue and order-volume trends.
-- Identify changes in sales performance.
-- Support further investigation into seasonal or operational factors.
-
-**Observed values in the displayed chart:**
-
-| Period | Approximate Revenue |
-|---|---:|
-| Q1 2017 | 0.7M |
-| Q2 2017 | 1.3M |
-| Q3 2017 | 1.7M |
-| Q4 2017 | 2.4M |
-| Q1 2018 | 2.8M |
-| Q2 2018 | 2.9M |
-| Q3 2018 | 1.7M |
-
-**Insight:** Revenue generally increased from early 2017 through Q2 2018, followed by a decline in Q3 2018.
-
-**Business implication:** Investigate the Q3 decline by comparing order volume, AOV, and category-level revenue. Check data coverage before concluding that the decline represents a complete-quarter performance change.
-
-### Number of Orders by Review Score
-
-**Chart type:** Column chart.
-
-**Purpose:**
-- Understand the distribution of customer ratings.
-- Identify the most frequent review scores.
-- Support customer experience analysis.
-
-**Observed insight:** Review score 5 has the highest count, followed by score 4.
-
-**Business implication:** High review counts do not necessarily imply high retention. Compare review scores with delivery performance and repeat purchase behavior to investigate potential relationships.
-
-### Orders by Order Status
-
-**Chart type:** Donut chart.
-
-**Purpose:**
-- Monitor order fulfillment outcomes.
-- Understand the distribution of order statuses.
-- Identify cancellations and other unsuccessful order outcomes.
-
-**Observed insight:** Approximately 97.02% of orders in the displayed view are delivered.
-
-**Business implication:** Most displayed orders are delivered successfully. The remaining order statuses should be monitored to identify possible fulfillment issues.
-
-### Revenue by Product Category
-
-**Chart type:** Horizontal bar chart.
-
-**Purpose:**
-- Rank product categories by revenue.
-- Identify major revenue contributors.
-- Support category-level business decisions.
-
-**Observed values in the displayed chart:**
-
-| Product Category | Approximate Revenue |
-|---|---:|
-| Health and beauty | 1.26M |
-| Watches and gifts | 1.21M |
-| Bed, bath and table | 1.04M |
-| Sports and leisure | 0.99M |
-| Computers and accessories | 0.91M |
-| Furniture and decor | 0.73M |
-| Cool stuff | 0.64M |
-| Housewares | 0.63M |
-| Auto | 0.59M |
-| Garden tools | 0.49M |
-
-**Insight:** Health and beauty and watches and gifts are the leading revenue categories in the displayed view.
-
-**Business implication:** Analyze these categories further using order volume, AOV, review scores, and repeat purchase rates. High revenue alone does not establish high customer loyalty.
-
-### Average Delivery Days by Customer State
-
-**Chart type:** Bar chart.
-
-**Purpose:**
-- Compare delivery duration across customer states.
-- Identify locations with longer delivery times.
-- Support logistics performance analysis.
-
-**Observed insight:** Average delivery duration varies by state, with values in the chart ranging from approximately 18 to 29 days.
-
-**Business implication:** Investigate states with longer delivery durations and compare shipping distance, seller location, and late-delivery rates.
-
-## 2.3 Page 1 Summary
-
-- Revenue and order volume provide an overview of marketplace performance.
-- Health and beauty and watches and gifts are among the highest-revenue categories.
-- Delivered orders dominate the displayed order-status distribution.
-- The repeat rate is relatively low at 3.12%, motivating a deeper customer retention analysis.
-- Delivery time differs across states and warrants further investigation.
+### 1.5. Repeat Rate
+- **Value:** 3.12%
+- **Definition:** Percentage of unique customers who made repeat purchases, based on the current model's definition.
+- **Calculation:** Repeat Customers / Total Unique Customers × 100%.
+- **Insight:** Only 3.12% of customers were classified as repeat customers. This is a potential retention challenge and suggests opportunities to encourage second purchases through targeted promotions, better delivery experiences, and post-purchase engagement.
 
 ---
 
-# Page 2 – Customer Analysis
+## 2. Chart Definitions and Key Findings
 
-## 3. Purpose
+### 2.1. Revenue and Total Order by Year and Quarter
+- **Chart Type:** Combo Chart (Column and Line).
+- **Metrics:** Revenue and Total Orders.
+- **Dimensions:** Year and Quarter.
 
-Analyze customer retention and spending behavior to understand which customer groups are more likely to purchase again.
+**Key findings:**
+- Q1 2017 generated approximately **0.7M BRL** in revenue.
+- Revenue increased to approximately **1.3M BRL** in Q2 2017 and **1.7M BRL** in Q3 2017.
+- Revenue reached approximately **2.4M BRL** in Q4 2017.
+- In 2018, revenue reached approximately **2.8M BRL** in Q1 and peaked at **2.9M BRL** in Q2.
+- Revenue declined to approximately **1.7M BRL** in Q3 2018.
+- The Q3 2018 value may reflect a partial reporting period, so it should not automatically be interpreted as a sustained business decline.
 
-This page focuses on repeat rate, first-order value, recency, first-order category, and the differences between repeat and non-repeat customers.
+**Business implication:** The business experienced strong growth from 2017 into the first half of 2018.
 
-## 3.1 Key Performance Indicators
+### 2.2. Count of Orders by Review Score
+- **Chart Type:** Column Chart.
+- **Metric:** Count of records by review score.
+- **Dimension:** Review Score (1–5).
 
-### Repeat Rate
+**Values shown in the dashboard:**
 
-- **Displayed value:** 3.12%
-- **Definition:** Percentage of unique customers who placed more than one order during the available dataset period.
-
-**Business purpose:** Establish the overall retention baseline for customer-level comparisons.
-
-### Total Customer
-
-The dashboard separates customers into two groups:
-
-| Customer Group | Displayed Count |
+| Review Score | Count |
 |---|---:|
-| Repeat | 2,996 |
-| Non-repeat | 93K |
+| 1 star | 11K |
+| 2 stars | 3K |
+| 3 stars | 8K |
+| 4 stars | 19K |
+| 5 stars | 57K |
+| **Total displayed** | **98K** |
 
-**Definition:**
-- **Repeat:** Customers who placed more than one order.
-- **Non-repeat:** Customers who placed only one order during the available dataset period.
+**Key findings:**
+- Five-star reviews account for approximately **58.2%** of the displayed review records.
+- Four- and five-star reviews together account for approximately **77.6%**.
+- One-star reviews account for approximately **11.2%**.
+- Two-star reviews represent approximately **3.1%**.
+- The displayed distribution indicates that positive reviews substantially outnumber negative reviews.
 
-**Business purpose:** Compare customer group sizes and understand the scale of the retention challenge.
+**Business implication:** Although customer feedback is generally positive, the 11K one-star reviews represent a meaningful group of dissatisfied customers.
 
-### AOV by Customer Group
+### 2.3. Total Orders by Order Status
+- **Chart Type:** Pie Chart.
+- **Metric:** Number of orders.
+- **Dimension:** Order Status.
 
-| Customer Group | Displayed AOV |
+**Values shown in the dashboard:**
+
+| Order Status | Approximate Count | Share |
+|---|---:|---:|
+| Delivered | 96K | 97.02% |
+| Other statuses combined | 3K | 2.98% |
+| **Total** | **99K** | **100%** |
+
+Other statuses include shipped, canceled, unavailable, invoiced, processing, and created.
+
+**Key findings:**
+- Approximately **97.02%** of orders reached the delivered status.
+- Approximately **2.98%** remained in other statuses.
+- The chart indicates a high delivery completion rate across the observed orders.
+
+**Business implication:** The overall completion rate is high, but the remaining orders should be examined separately to distinguish normal processing orders from canceled, unavailable, or delayed orders.
+
+### 2.4. Revenue by Product Category
+- **Chart Type:** Horizontal Bar Chart.
+- **Metric:** Revenue.
+- **Dimension:** English Product Category.
+
+**Top categories shown in the dashboard:**
+
+| Rank | Product Category | Revenue |
+|---:|---|---:|
+| 1 | Health & Beauty | 1.26M BRL |
+| 2 | Watches & Gifts | 1.21M BRL |
+| 3 | Bed, Bath & Table | 1.04M BRL |
+| 4 | Sports & Leisure | 0.99M BRL |
+| 5 | Computers & Accessories | 0.91M BRL |
+| 6 | Furniture & Decor | 0.73M BRL |
+| 7 | Cool Stuff | 0.64M BRL |
+| 8 | Housewares | 0.63M BRL |
+| 9 | Auto | 0.59M BRL |
+| 10 | Garden Tools | 0.49M BRL |
+
+
+**Key findings:**
+- Health & Beauty leads the displayed categories with approximately **1.26M BRL**.
+- Watches & Gifts follows closely at **1.21M BRL**, a difference of approximately **50K BRL**.
+- Bed, Bath & Table generates approximately **1.04M BRL**.
+- The top five categories each generate around **0.91M BRL or more**.
+- Telephony generates approximately **0.32M BRL**, less than one-third of Health & Beauty revenue.
+
+**Business implication:** Health & Beauty and Watches & Gifts are important revenue contributors. The business could investigate their best-selling products, order frequency, and repeat-purchase behavior to identify opportunities for further growth.
+
+### 2.5. Average Delivery Days by Customer State
+- **Chart Type:** Column Chart.
+- **Metric:** Average delivery duration in days.
+- **Dimension:** Customer State.
+
+**Values shown in the dashboard:**
+
+| State | Average Delivery Days |
 |---|---:|
-| Repeat | 122.80 |
-| Non-repeat | 137.66 |
+| RR | 29 days |
+| AP | 27 days |
+| AM | 26 days |
+| AL | 24 days |
+| PA | 23 days |
+| SE | 21 days |
+| MA | 21 days |
+| CE | 21 days |
+| PI | 21 days |
+| TO | 20 days |
+| RO | 20 days |
+| BA | 19 days |
+| PB | 19 days |
+| RN | 19 days |
+| PE | 19 days |
+| AC | 19 days |
+| GO | 19 days |
+| MT | 19 days |
+| MS | 19 days |
+| ES | 18 days |
 
-**Definition:** Average order value calculated separately for repeat and non-repeat customers.
+**Key findings:**
+- RR has the longest displayed average delivery time at approximately **29 days**.
+- AP follows at **27 days**, while AM averages approximately **26 days**.
+- ES has the shortest average among the displayed states at approximately **18 days**.
+- The difference between RR and ES is approximately **11 days**.
+- Several states have average delivery durations above 24 days, suggesting potential regional logistics challenges.
 
-**Insight:** The displayed AOV is lower for repeat customers than for non-repeat customers.
+**Business implication:** Logistics improvement efforts could prioritize states with the longest delivery durations. However, the analysis should also account for order volume, geographic distance, and the proportion of late deliveries before drawing conclusions about logistics performance.
 
-**Business implication:** Higher initial or average spending does not necessarily translate into repeat purchasing. Investigate first-order value, product category, and other customer characteristics before deciding which group to target.
 
-### Customer Spend
+---
 
-| Customer Group | Displayed Value |
+## 3. Business Insights
+
+### Insight 1: Revenue Grew Significantly Before Declining in Q3 2018
+- Revenue increased from approximately **0.7M BRL in Q1 2017** to **2.9M BRL in Q2 2018**.
+- Revenue declined to approximately **1.7M BRL in Q3 2018**.
+- The peak quarter generated over four times the revenue recorded in Q1 2017.
+
+### Insight 2: Order Fulfillment Performance Is High
+- Approximately **97.02% of orders** reached the delivered status.
+- Approximately **2.98% of orders** remained in other statuses.
+- The high delivery completion rate suggests that most recorded orders reached customers successfully.
+
+### Insight 3: Customer Reviews Are Generally Positive
+- The average review score is **4.09/5**.
+- Approximately **77.6% of displayed review records** have four or five stars.
+- Approximately **11.2% of displayed review records** have one star.
+
+
+### Insight 4: Customer Retention Remains a Challenge
+- The overall repeat rate is **3.12%**.
+- This indicates that only a small proportion of customers are classified as repeat buyers under the current metric definition.
+- A high order delivery completion rate does not necessarily translate into repeat purchases.
+
+
+### Insight 5: Revenue Is Concentrated in Leading Product Categories
+- Health & Beauty generates approximately **1.26M BRL** in revenue.
+- Watches & Gifts follows at approximately **1.21M BRL**.
+- Bed, Bath & Table ranks third at approximately **1.04M BRL**.
+- The revenue difference between Health & Beauty and Watches & Gifts is approximately **50K BRL**.
+
+
+### Insight 6: Delivery Duration Varies Across Customer States
+- Average delivery duration ranges from approximately **18 days to 29 days** across the displayed states.
+- RR has the longest displayed average at approximately **29 days**.
+- ES has the shortest displayed average among the visible states at approximately **18 days**.
+- The difference between these states is approximately **11 days**.
+
+## 4. Filter Definitions
+
+| Filter | Definition |
+|---|---|
+| Year | Filters metrics and charts by purchase year. |
+| Month Number | Filters metrics and charts by purchase month. |
+| Customer State | Filters metrics and charts by customer location. |
+
+
+---
+
+# II. Page 2 – Customer Analysis
+<img width="1056" height="604" alt="Page2_Customer Analysis" src="https://github.com/user-attachments/assets/fb6e3a29-b960-4b96-a218-60ad3c21d38d" />
+
+
+## 1. Key Performance Indicators (KPIs)
+
+### 1.1. Repeat Rate
+- **Value:** 3.12%
+- **Definition:** Percentage of unique customers who made repeat purchases according to the project's customer classification.
+- **Insight:** The repeat rate is only 3.12%, indicating that the customer base is dominated by one-time buyers. This highlights a potential opportunity to improve customer retention and encourage second purchases.
+
+### 1.2. Total Customer
+- **Repeat Customers:** 2,996
+- **Non-Repeat Customers:** 93K
+- **Definition**: Number of unique customers classified as repeat or non-repeat buyers.
+- **Insight:** The large difference between repeat and non-repeat customers suggests that acquiring customers does not necessarily translate into long-term customer relationships.
+
+### 1.3. Average Order Value (AOV)
+- **Repeat Customers:** 122.80 BRL
+- **Non-Repeat Customers:** 137.66 BRL
+- **Definition:** Average order value for each customer group.
+- **Insight:** Repeat customers have an AOV approximately 10.8% lower than non-repeat customers. This suggests that customers who return may place smaller orders on average, although order frequency and cumulative customer spending should also be considered.
+
+### 1.4. Customer Spend
+- **Repeat Customers:** 382.93 BRL
+- **Non-Repeat Customers:** 138.23 BRL
+- **Definition:** Average cumulative spending per customer within each customer group
+- **Insight:** Repeat customers spend approximately 2.77 times as much per customer as non-repeat customers. Despite their lower AOV, their additional purchases result in higher cumulative spending.
+
+### 1.5. Average Review Score
+- **Repeat Customers:** 4.12 / 5
+- **Non-Repeat Customers:** 4.08 / 5
+- **Definition:** Average customer review score for each customer group.
+- **Insight:** Repeat customers have a slightly higher average review score, with a difference of 0.04 points. The small gap suggests that average review score alone may not sufficiently explain repeat-purchase behavior.
+
+---
+
+## 2. Chart Definitions and Key Findings
+
+### 2.1. Repeat Rate and Total Customer by First Order Value Band
+- **Chart Type:** Combo Chart (Line and Area Chart).
+- **Metrics:** Repeat Rate and Total Customers.
+- **Dimension:** First Order Value Band.
+
+**Values shown in the dashboard:**
+
+| First Order Value Band | Total Customers | Repeat Rate |
+|---|---:|---:|
+| < 100 BRL | 56K | 3.3% |
+| 200–499 BRL | 11K | 2.93% |
+| 100–199 BRL | 25K | 2.86% |
+| 500–999 BRL | 3K | 2.32% |
+| > 1000 BRL | 1K | 1.84% |
+
+**Key findings:**
+- The `< 100 BRL` segment contains the largest customer base, with approximately 56K customers and a repeat rate of 3.3%.
+- Customers with a first order value of 200–499 BRL have a repeat rate of 2.93%.
+- The 100–199 BRL segment has a repeat rate of 2.86%.
+- Repeat rate decreases to 2.32% for the 500–999 BRL segment.
+- Customers spending over 1,000 BRL on their first order have the lowest displayed repeat rate, at 1.84%.
+
+**Business insight:** Higher first-order spending does not necessarily lead to stronger customer retention. Customers making expensive initial purchases may not have a recurring need for the same products, so retention strategies should consider product type and purchase frequency rather than relying on order value alone.
+
+
+### 2.2. Average Delivery Days by Customer State
+- **Chart Type:** Column Chart.
+- **Metric:** Average Delivery Days.
+- **Dimension:** Customer State.
+
+**Values shown in the dashboard:**
+
+| Customer Group | Average Delivery Days |
 |---|---:|
-| Repeat | 382.93 |
-| Non-repeat | 138.23 |
+| 1 order | Approximately 93K customers shown |
+| 2 orders | Approximately 3K customers shown |
+| 3 orders | Less than 1K customers shown |
+| 4 orders | Less than 1K customers shown |
 
-**Definition:** The displayed customer-level spending measure for each group.
 
-**Insight:** Repeat customers have a higher displayed customer spend value than non-repeat customers.
+**Key findings:** Approximately 93K customers belong to the one-order group, while around 3K belong to the two-order group. The very large difference highlights the dominance of one-time buyers.
 
-**Business implication:** Customers who return may generate more cumulative spending even when their average order value is lower. Confirm the exact spend calculation and whether it represents total spend per customer.
+### 2.3. Repeat Rate by First Order Category
+- **Chart Type:** Horizontal Bar Chart.
+- **Metric:** Repeat Rate.
+- **Dimension:** First Order Category.
 
-### Average Review Score by Customer Group
+**Values shown in the dashboard:**
 
-| Customer Group | Displayed Score |
-|---|---:|
-| Repeat | 4.12 |
-| Non-repeat | 4.08 |
+| Rank | First Order Category | Repeat Rate |
+|---:|---|---:|
+| 1 | Cuisine | 14.29% |
+| 2 | Fashion Female Clothing | 13.04% |
+| 3 | Home Appliances | 10.89% |
+| 4 | Arts and Craftsmanship | 9.09% |
+| 5 | Fashion Male Clothing | 8.00% |
+| 6 | Drinks | 6.36% |
+| 7 | Fashion Bags and Accessories | 6.07% |
+| 8 | Fashion Shoes | 5.80% |
+| 9 | Furniture and Decor | 4.88% |
+| 10 | Diapers and Hygiene | 4.75% |
+| 11 | Home Comfort | 4.75% |
+| 12 | Bed, Bath and Table | 4.64% |
 
-**Definition:** Average review score for each customer group.
+**Key findings:**
+- Cuisine has the highest displayed repeat rate at 14.29%.
+- Fashion Female Clothing follows at 13.04%.
+- Home Appliances reaches 10.89%.
+- Fashion Male Clothing has a repeat rate of 8.00%.
+- Furniture and Decor and Bed, Bath and Table have repeat rates below 5%.
+- The gap between Cuisine and Bed, Bath and Table is approximately 9.65 percentage points.
 
-**Insight:** Repeat customers have a slightly higher average review score than non-repeat customers in the displayed view.
+**Business insight:** Repeat-purchase behavior differs substantially by first-order category. Categories with higher repeat rates may involve more frequent or complementary purchases, while categories such as furniture and home furnishings may have longer replacement cycles.
 
-**Business implication:** The difference is small. Review score alone should not be treated as a sufficient explanation of repeat purchase behavior.
 
-## 3.2 Supporting Visualizations
 
-### Repeat Rate and Total Customers by First Order Value Band
+### 2.4. Repeat Rate by Recency Band
+- **Chart Type:** Column Chart.
+- **Metric:** Repeat Rate.
+- **Dimension:** Recency Band.
 
-**Chart type:** Combination chart.
+**Values shown in the dashboard:**
 
-**Purpose:**
-- Compare repeat rate across first-order value bands.
-- Show the number of customers in each band.
-- Investigate whether initial spending is associated with repeat purchasing.
-
-**Observed repeat rates:**
-
-| First Order Value Band | Repeat Rate |
-|---|---:|
-| Less than 100 | 3.30% |
-| 100–199 | 2.86% |
-| 200–499 | 2.93% |
-| 500–999 | 2.32% |
-| Greater than 1000 | 1.84% |
-
-**Insight:** The displayed repeat rate generally declines in the higher first-order value bands, although the pattern is not strictly monotonic.
-
-**Business implication:** A high-value first purchase does not guarantee another purchase. Consider category, product durability, purchase intent, and the number of items bought when investigating retention.
-
-### Repeat Rate by Recency Band
-
-**Chart type:** Column chart.
-
-**Purpose:**
-- Compare customer counts or activity across recency bands.
-- Understand how recently customers purchased.
-- Support customer segmentation and re-engagement analysis.
-
-**Important interpretation note:** The screenshot shows the following percentages:
-
-| Recency Band | Displayed Value |
+| Recency Band | Repeat Rate |
 |---|---:|
 | 0–30 days | 77.78% |
 | 31–60 days | 4.62% |
-| 61–90 days | 3.41% |
-| 91–180 days | 3.37% |
-| Greater than 180 days | 2.96% |
+| 61–90 days | 3.37% |
+| 91–180 days | 3.41% |
+| > 180 days | 2.96% |
 
-These values should be interpreted according to the actual measure used in Power BI. The first value is substantially higher than the others, so verify whether the chart shows repeat rate, customer distribution, or another percentage measure before using it as a business conclusion.
+**Key findings:**
+- The 0–30 day band has a displayed repeat rate of 77.78%, far higher than all other bands.
+- The 31–60 day band drops to 4.62%.
+- The 61–90 day band has a repeat rate of 3.37%.
+- The 91–180 day band records 3.41%, slightly above the 61–90 day band.
+- The >180 day band has the lowest displayed repeat rate, at 2.96%.
 
-### Repeat Rate by First Order Category
+**Business insight:** Customers who purchase again within 30 days appear much more likely to be repeat buyers. However, the unusually high 77.78% rate should be validated against the recency definition, customer population, and calculation logic.
 
-**Chart type:** Horizontal bar chart.
-
-**Purpose:**
-- Rank product categories by customer repeat rate.
-- Identify categories associated with higher observed repeat purchasing.
-- Support category-specific retention strategies.
-
-**Observed values in the displayed chart:**
-
-| First Order Category | Approximate Repeat Rate |
-|---|---:|
-| Cuisine | 14.29% |
-| Fashion female clothing | 13.04% |
-| Home appliances | 13.04% |
-| Arts and craftmanship | 9.09% |
-| Fashion male clothing | 8.00% |
-| Drinks | 6.36% |
-| Fashion bags and accessories | 6.07% |
-| Fashion shoes | 5.80% |
-| Furniture and decor | 4.88% |
-| Diapers and hygiene | 4.76% |
-| Home comfort | 4.75% |
-| Bed, bath and table | 4.64% |
-
-**Insight:** Repeat rates vary across first-order categories. Several categories have higher displayed repeat rates than the overall 3.12% baseline.
-
-**Business implication:** Categories with higher repeat rates may be useful candidates for further investigation. Check customer counts for each category because small groups can produce volatile percentages.
-
-### Average Delivery Days by Number of Orders
-
-**Chart type:** Column chart.
-
-**Purpose:**
-- Compare the distribution of customers by order count.
-- Identify how many customers made one, two, three, or four orders.
-
-**Observed insight:** The displayed chart shows approximately 93K customers with one order and substantially fewer customers with two or more orders.
-
-**Business implication:** Most customers purchase only once in the available dataset period. Retention efforts could focus on encouraging a second purchase after the first order.
-
-## 3.3 Page 2 Summary
-
-- The displayed repeat rate is 3.12%.
-- Non-repeat customers greatly outnumber repeat customers.
-- Repeat customers have higher displayed total customer spend but lower AOV.
-- Repeat rates differ by first-order value band and category.
-- Verify the recency visual's measure before using its percentages in business reporting.
+**Business implication:** If the metric is correctly defined, the first 30 days after an initial purchase may be a useful window for follow-up communication and personalized recommendations. The company should test these interventions rather than assuming that early outreach will cause repeat purchases.
 
 ---
 
-# Page 3 – Customer Experience
+## 3. Key Business Insights
 
-## 4. Purpose
+### Insight 1: Customer Retention Is a Major Opportunity
+- The repeat rate is only **3.12%**.
+- Approximately **2,996 customers** are classified as repeat buyers, compared with approximately **93K non-repeat customers**.
+- The customer base is heavily concentrated among one-time buyers.
 
-Investigate how customer location, delivery duration, late delivery, and review scores relate to repeat purchase behavior.
 
-This page compares repeat and non-repeat customers and highlights geographical differences in retention and delivery performance.
+### Insight 2: Repeat Customers Spend More Over Time
+- Repeat customer AOV is **122.80 BRL**, compared with **137.66 BRL** for non-repeat customers.
+- Average customer spend is **382.93 BRL** for repeat customers, compared with **138.23 BRL** for non-repeat customers.
+- Repeat customers spend approximately **2.77 times as much cumulatively per customer**.
 
-## 4.1 Key Performance Indicators
 
-### Repeat Rate
+### Insight 3: First-Order Value Alone Does Not Guarantee Retention
+- Customers in the `< 100 BRL` band have a repeat rate of **3.3%**.
+- Customers in the `> 1000 BRL` band have a repeat rate of only **1.84%**.
+- Repeat rate generally declines across the higher first-order value bands displayed.
 
-- **Displayed value:** 3.12%
-- **Definition:** Percentage of unique customers who placed more than one order during the available dataset period.
 
-### Total Customer
+### Insight 4: Retention Varies by Product Category
+- Cuisine has the highest displayed repeat rate at **14.29%**.
+- Fashion Female Clothing reaches **13.04%**.
+- Home Appliances reaches **10.89%**.
+- Bed, Bath and Table has a displayed repeat rate of **4.64%**.
 
-| Customer Group | Displayed Count |
-|---|---:|
-| Repeat | 2,996 |
-| Non-repeat | 93K |
 
-### Delivery Days
+### Insight 5: The First 30 Days May Be an Important Retention Window
+- The displayed repeat rate for the 0–30 day recency band is **77.78%**.
+- The next band, 31–60 days, records **4.62%**.
+- The >180 day band records **2.96%**.
 
-| Customer Group | Displayed Average |
-|---|---:|
-| Repeat | 11.90 days |
-| Non-repeat | 12.11 days |
 
-**Insight:** The displayed average delivery duration is slightly lower for repeat customers.
+### Insight 6: Review Scores Differ Only Slightly Between Customer Groups
+- Repeat customers have an average review score of **4.12**.
+- Non-repeat customers have an average review score of **4.08**.
+- The difference is only **0.04 points**.
 
-**Business implication:** The difference is small and does not prove that faster delivery causes repeat purchases. Further analysis should control for other customer and order characteristics.
+## 4. Filter Definitions
 
-### Late Rate
-
-| Customer Group | Displayed Late Rate |
-|---|---:|
-| Repeat | 12.48% |
-| Non-repeat | 7.95% |
-
-**Definition:** Percentage of orders classified as late under the dashboard's delivery-date logic.
-
-**Insight:** The displayed late rate is higher for repeat customers than for non-repeat customers.
-
-**Business implication:** This result does not support the simple assumption that repeat customers always experience fewer late deliveries. Repeat customers may differ in order frequency, location, or other characteristics. Validate the calculation and investigate these differences before drawing conclusions.
-
-### Average Review Score
-
-| Customer Group | Displayed Score |
-|---|---:|
-| Repeat | 4.12 |
-| Non-repeat | 4.08 |
-
-**Insight:** Repeat customers have a slightly higher average review score.
-
-**Business implication:** The small difference suggests that review score alone may not explain the retention gap.
-
-## 4.2 Supporting Visualizations
-
-### Repeat Rate by Customer State
-
-**Chart type:** Column chart.
-
-**Purpose:**
-- Compare repeat rate across Brazilian states.
-- Identify locations with higher observed retention.
-- Examine geographical differences in customer behavior.
-
-**Observed insight:** The displayed repeat rate varies across states. AC and RO appear among the states with the highest rates, while several other states have lower rates.
-
-The dashboard notes that SP and RJ account for a large share of customers, with approximately 42K customers in SP and 13K in RJ in the displayed customer distribution.
-
-**Business implication:** High repeat rates in states with smaller customer populations should be interpreted carefully. Compare both repeat rate and customer count before prioritizing a location.
-
-### Customer Count by State
-
-**Chart type:** Horizontal bar chart.
-
-**Purpose:**
-- Show the distribution of customers across states.
-- Identify the largest customer markets.
-- Provide context for state-level repeat rate comparisons.
-
-**Observed insight:** SP has the largest customer count in the displayed chart, followed by RJ and MG.
-
-**Business implication:** Large customer markets may offer greater potential impact for retention initiatives, even when their repeat rate is not the highest.
-
-### Late Rate and Average Review Score by Customer State
-
-**Chart type:** Line chart.
-
-**Purpose:**
-- Compare late-delivery rates and average review scores across states.
-- Identify locations where delivery performance and customer feedback may warrant investigation.
-- Support geographical service improvement analysis.
-
-**Observed insight:** Late rates and average review scores vary by state.
-
-**Business implication:** Investigate states with both relatively high late rates and lower review scores. The chart indicates an association between state-level metrics only; it does not establish that late delivery causes lower ratings.
-
-### Average Delivery Days and Average Review Score by Customer State
-
-**Chart type:** Combination chart.
-
-**Purpose:**
-- Compare average delivery duration with review scores across states.
-- Identify possible geographical differences in customer experience.
-- Support logistics and service-quality analysis.
-
-**Observed insight:** Average delivery days and review scores differ across states.
-
-**Business implication:** Investigate states with longer delivery durations and compare their review scores, late rates, and customer counts to determine whether operational improvements may be warranted.
-
-## 4.3 Page 3 Summary
-
-- Repeat customers have a slightly lower displayed average delivery duration than non-repeat customers.
-- The late rate is higher for repeat customers in the displayed comparison; this needs validation and further investigation.
-- Repeat rate varies across states.
-- SP has the largest customer population in the displayed state distribution.
-- Delivery duration, late rate, and review score should be analyzed together rather than interpreted independently.
+| Filter | Definition |
+|---|---|
+| Year | Filters metrics and charts by purchase year. |
+| Month Number | Filters metrics and charts by purchase month. |
+| Customer State | Filters metrics and charts by customer location. |
 
 ---
+# III.Page 3 – Customer Experience
+<img width="1055" height="606" alt="Page3_Customer Experience" src="https://github.com/user-attachments/assets/88219cf8-c65a-4a34-828d-b56207d69c4c" />
+
+
+## 1. Key Performance Indicators (KPIs)
+
+### 1.1. Repeat Rate
+- **Value:** 3.12%
+- **Definition:** Percentage of unique customers who made repeat purchases according to the project's customer classification.
+- **Purpose:** Measures customer retention and helps evaluate whether the customer experience encourages customers to purchase again.
+
+### 1.2. Total Customer
+- **Repeat Customers:** 2,996
+- **Non-Repeat Customers:** Approximately 93K
+- **Definition:** Number of unique customers classified as repeat or non-repeat buyers.
+- **Purpose:** Provides context for comparing customer experience metrics between repeat and non-repeat groups.
+
+### 1.3. Delivery Days
+- **Repeat Customers:** 11.90 days
+- **Non-Repeat Customers:** 12.11 days
+- **Definition:** Average number of days between order purchase and customer delivery.
+- **Purpose:** Evaluates delivery performance and compares the delivery experience of repeat and non-repeat customers.
+
+### 1.4. Late Rate
+- **Repeat Customers:** 12.48%
+- **Non-Repeat Customers:** 7.95%
+- **Definition:** Percentage of orders classified as late according to the project's delivery-delay rule.
+- **Purpose:** Measures delivery reliability and helps identify potential relationships between late deliveries and repeat-purchase behavior.
+
+### 1.5. Average Review Score
+- **Repeat Customers:** 4.12 / 5
+- **Non-Repeat Customers:** 4.08 / 5
+- **Definition:** Average customer review score for each customer group.
+- **Purpose:** Measures perceived customer satisfaction and supports comparisons between customer groups.
+
+---
+
+## 2. Chart Definitions and Key Findings
+
+### 2.1. Repeat Rate by Customer State
+- **Chart Type:** Column Chart.
+- **Metric:** Repeat Rate.
+- **Dimension:** Customer State.
+- **Definition:** Compares the percentage of repeat customers across Brazilian states.
+
+**Key findings:**
+- AC has the highest displayed repeat rate at approximately **5.19%**.
+- RO follows at approximately **4.18%**.
+- MT records approximately **3.43%**.
+- RJ and GO have displayed repeat rates of approximately **3.33%** and **3.24%**, respectively.
+- SP has a repeat rate of approximately **3.06%**.
+- CE has the lowest displayed repeat rate at approximately **1.68%**.
+- The difference between AC and CE is approximately **3.51 percentage points**.
+
+
+### 2.2. Count of Customers by Customer State
+- **Chart Type:** Horizontal Bar Chart.
+- **Metric:** Count of Unique Customers.
+- **Dimension:** Customer State.
+- **Definition:** Displays the distribution of unique customers across Brazilian states.
+
+**Key findings:**
+- SP has approximately **42K customers**, making it the largest customer market in the displayed chart.
+- RJ follows with approximately **13K customers**.
+- MG has approximately **12K customers**.
+- RS and PR each have approximately **5K customers**.
+- SC has approximately **4K customers**.
+- BA has approximately **3K customers**.
+- Most remaining states have substantially smaller customer bases.
+
+
+### 2.3. Average Delivery Days and Average Review Score by Customer State
+- **Chart Type:** Combo Chart (Line Chart).
+- **Metrics:** Average Delivery Days and Average Review Score.
+- **Dimension:** Customer State.
+- **Definition:** Compares average delivery duration and customer review scores across Brazilian states.
+
+**Key findings:**
+- Average delivery duration varies considerably across states, with several regions showing averages near or above **20 days**.
+- The displayed delivery-duration line declines from approximately **30 days** in some early categories to below **10 days** in the final category.
+- Average review scores fluctuate across states, generally ranging between approximately **3.6 and 4.2**.
+- Some states show relatively high review scores despite longer delivery durations, indicating that delivery time alone may not explain customer satisfaction.
+
+
+### 2.4. Late Rate and Average Review Score by Customer State
+- **Chart Type:** Combo Chart (Line Chart).
+- **Metrics:** Late Rate and Average Review Score.
+- **Dimension:** Customer State.
+- **Definition:** Compares the percentage of late orders with average customer review scores across Brazilian states.
+
+**Key findings:**
+- The overall late rate is **12.48% for repeat customers**, compared with **7.95% for non-repeat customers**.
+- The difference is **4.53 percentage points**.
+- Repeat customers have an average review score of **4.12**, compared with **4.08** for non-repeat customers.
+- State-level late rates and review scores fluctuate, suggesting potential regional differences in delivery experience and customer feedback.
+
+
+---
+
+## 3. Business Insights
+
+### Insight 1: Repeat Customers Have a Higher Late Rate
+- The late rate is **12.48% for repeat customers**, compared with **7.95% for non-repeat customers**.
+- This represents a difference of **4.53 percentage points**.
+- Despite the higher late rate, repeat customers have a slightly higher average review score of **4.12**, compared with **4.08** for non-repeat customers.
+
+
+### Insight 2: Average Delivery Duration Is Similar Across Customer Groups
+- Repeat customers receive orders in an average of **11.90 days**.
+- Non-repeat customers receive orders in an average of **12.11 days**.
+- The difference is only **0.21 days**, or approximately five hours.
+
+
+### Insight 3: Customer Retention Varies Across States
+- AC has the highest displayed repeat rate at approximately **5.19%**.
+- RO follows at approximately **4.18%**.
+- SP has a displayed repeat rate of approximately **3.06%**.
+- CE has the lowest displayed repeat rate at approximately **1.68%**.
+
+
+### Insight 4: The Customer Base Is Concentrated in a Few Major States
+- SP contains approximately **42K customers**.
+- RJ has approximately **13K customers**, while MG has approximately **12K customers**.
+- SP therefore has more than three times the customer count of RJ in the displayed chart.
+
+
+### Insight 5: Review Scores Are Similar Despite Differences in Late Rates
+- Repeat customers have an average review score of **4.12/5**.
+- Non-repeat customers have an average review score of **4.08/5**.
+- The difference is only **0.04 points**, even though the repeat group has a higher late rate.
+
+---
+
+## 4. Filter Definitions
+
+| Filter | Definition |
+|---|---|
+| Year | Filters customer experience metrics by the selected year, based on the date relationship configured in the data model. |
+| Month Number | Filters metrics and charts by the selected purchase month. |
+| Customer State | Filters customer experience metrics and charts by the customer's state. |
 
 # Page 4 – Product & Seller Performance
+<img width="1057" height="609" alt="Page4_Product   Seller Performance" src="https://github.com/user-attachments/assets/436f3d09-1a7e-446a-8774-191fea0ee7fb" />
 
-## 5. Purpose
 
-Evaluate product category revenue and seller-level performance to identify major revenue contributors, potential delivery issues, and differences in customer feedback.
+## 1. Key Performance Indicators (KPIs)
 
-## 5.1 Key Performance Indicators
+### 1.1. Revenue
+- **Value:** 13.59M BRL
+- **Definition:** Total revenue generated from product sales.
+- **Purpose:** Measures overall sales performance and provides a basis for comparing product categories and seller performance.
 
-### Revenue
+### 1.2. Total Order
+- **Value:** Approximately 99K
+- **Definition:** Total number of unique orders in the dataset.
+- **Purpose:** Measures order volume and helps evaluate the sales contribution of different sellers.
 
-- **Displayed value:** 13.59M
-- **Definition:** Total revenue generated from order items.
+### 1.3. Total Seller
+- **Value:** 3,095
+- **Definition:** Number of unique sellers represented in the dataset.
+- **Purpose:** Measures the size of the seller network and provides context for evaluating seller-level performance.
 
-### Total Order
+### 1.4. Total Category
+- **Value:** 74
+- **Definition:** Number of distinct product categories represented in the dataset.
+- **Purpose:** Measures product assortment breadth and helps identify opportunities to expand or optimize category coverage.
 
-- **Displayed value:** 99K
-- **Definition:** Number of distinct orders.
-
-### Total Seller
-
-- **Displayed value:** 3,095
-- **Definition:** Number of sellers represented in the report.
-
-**Suggested DAX:**
-
-```dax
-Total Seller =
-DISTINCTCOUNT(sellers_cleaned[seller_id])
-```
-
-Confirm the actual table name in the Power BI model.
-
-### Total Category
-
-- **Displayed value:** 74
-- **Definition:** Number of product categories represented in the report.
-
-**Suggested DAX:**
-
-```dax
-Total Category =
-DISTINCTCOUNT(products_cleaned[product_category_name_english])
-```
-
-Confirm that blank or `unknown` categories are handled consistently with your existing measure.
-
-### Average Review Score
-
-- **Displayed value:** 4.09
-- **Definition:** Average customer review score.
-
-## 5.2 Supporting Visualizations
-
-### Top 10 Revenue by Product Category
-
-**Chart type:** Column chart.
-
-**Purpose:**
-- Rank product categories by revenue.
-- Identify major contributors to total sales.
-- Support category prioritization.
-
-**Observed insight:** Health and beauty, watches and gifts, bed, bath and table, and sports and leisure are among the leading categories in the displayed chart.
-
-**Business implication:** High-revenue categories should be evaluated alongside customer retention, average order value, and review scores. Revenue ranking alone does not measure profitability or customer loyalty.
-
-### Seller Performance Table
-
-**Displayed columns:**
-- `seller_state`
-- `Revenue`
-- `Late Rate`
-- `Avg Review Score`
-- `Total Order`
-- `AOV_sellers`
-
-**Purpose:**
-- Compare sellers across sales and service indicators.
-- Identify sellers with high revenue or order volume.
-- Examine late-delivery rates and review scores.
-- Support seller performance monitoring.
-
-**Observed insight:** The displayed table contains seller-state and seller-level performance records, with differences in revenue, order volume, late rate, average review score, and AOV.
-
-**Business implication:** Sellers with high revenue and high late rates may require further operational investigation. Sellers with lower review scores should be assessed using order volume and other contextual factors before being classified as underperforming.
-
-### Late Rate and Average Review Score
-
-**Chart type:** Scatter plot.
-
-**Purpose:**
-- Examine the relationship between late-delivery rate and average review score.
-- Identify potential outliers.
-- Compare seller-level service performance.
-
-**Observed insight:** The scatter plot shows variation in late rates and review scores across the plotted observations.
-
-**Business implication:** Investigate observations with high late rates and low review scores. Confirm the level of aggregation for each point and consider order volume before interpreting outliers.
-
-## 5.3 Page 4 Summary
-
-- Health and beauty and watches and gifts are among the leading revenue categories.
-- The dashboard covers 3,095 sellers and 74 product categories in the displayed view.
-- Seller performance varies across revenue, order volume, late rate, average review score, and AOV.
-- The scatter plot can help identify sellers or groups requiring further review.
-- Seller evaluation should consider both sales results and service quality.
+### 1.5. Average Review Score
+- **Value:** 4.09 / 5
+- **Definition:** Average customer review score across valid reviews.
+- **Purpose:** Evaluates customer satisfaction and provides context for comparing product and seller performance.
 
 ---
 
-# 6. Cross-Page Business Insights
+## 2. Chart Definitions and Key Findings
 
-The four pages provide complementary views of marketplace performance.
+### 2.1. Top 10 Revenue by Product Category
+- **Chart Type:** Horizontal Bar Chart.
+- **Metric:** Revenue.
+- **Dimension:** Product Category.
+- **Definition:** Ranks the ten product categories generating the highest revenue.
 
-## 6.1 Customer Retention Is a Key Area for Investigation
+**Key findings:**
 
-The overall repeat rate shown on the dashboard is 3.12%. The customer analysis page shows a much larger non-repeat group than repeat group.
+| Rank | Product Category | Revenue |
+|---:|---|---:|
+| 1 | Health & Beauty | 1.26M BRL |
+| 2 | Watches & Gifts | 1.21M BRL |
+| 3 | Bed, Bath & Table | 1.04M BRL |
+| 4 | Sports & Leisure | 0.99M BRL |
+| 5 | Computers & Accessories | 0.91M BRL |
+| 6 | Furniture & Decor | 0.73M BRL |
+| 7 | Cool Stuff | 0.64M BRL |
+| 8 | Housewares | 0.63M BRL |
+| 9 | Auto | 0.59M BRL |
+| 10 | Garden Tools | 0.49M BRL |
 
-**Recommended action:** Investigate first-order category, first-order value, recency, and customer location to identify segments for retention experiments.
+- Health & Beauty leads with approximately **1.26M BRL** in revenue.
+- Watches & Gifts follows at **1.21M BRL**, approximately 50K BRL below the leading category.
+- The top five categories each generate approximately **0.91M BRL or more**.
+- Garden Tools generates approximately **0.49M BRL**, less than half the revenue of Health & Beauty.
 
-## 6.2 Revenue Is Concentrated in Leading Categories
 
-Health and beauty and watches and gifts are among the largest revenue contributors in the displayed category charts.
+### 2.2. Late Rate and Average Review Score
+- **Chart Type:** Scatter Plot.
+- **Metrics:** Late Rate and Average Review Score.
+- **Definition:** Examines the relationship between delivery lateness and customer review scores across the displayed observations.
 
-**Recommended action:** Compare category revenue with repeat rate, AOV, review scores, and order volume to distinguish categories that generate high sales from categories associated with repeat purchasing.
+**Key findings:**
+- Many observations cluster around late rates below **20%**.
+- Most visible review scores fall approximately between **3 and 5**.
+- Some observations have late rates above **40%**, including points near **60–100%**.
+- Review scores vary among observations with similar late rates, suggesting that lateness may not be the only factor associated with customer feedback.
 
-## 6.3 Delivery Performance Varies Geographically
+### 2.3. Seller Performance Table
+- **Chart Type:** Table.
+- **Dimensions:** Seller State and Seller.
+- **Metrics:** Revenue, Late Rate, Average Review Score, Total Order, and Seller AOV.
+- **Definition:** Compares individual sellers using sales, delivery reliability, customer feedback, and order-value metrics.
 
-Average delivery duration and late rates vary across customer states.
+**Examples visible in the dashboard:**
 
-**Recommended action:** Prioritize further investigation of states with longer delivery durations or high late rates, considering customer counts and seller locations.
+| Seller State | Revenue (BRL) | Late Rate | Avg Review Score | Total Order | Seller AOV (BRL) |
+|---|---:|---:|---:|---:|---:|
+| SP | 229,472.63 | 11.57% | 4.13 | 1,132 | 202.71 |
+| BA | 222,776.05 | 4.31% | 4.13 | 358 | 622.28 |
+| SP | 200,472.92 | 11.00% | 3.83 | 1,806 | 111.00 |
+| SP | 194,042.03 | 10.21% | 4.34 | 585 | 331.70 |
+| SP | 187,923.89 | 10.07% | 3.49 | 982 | 191.37 |
+| SP | 176,431.87 | 5.64% | 4.21 | 336 | 525.09 |
+| SP | 160,236.57 | 7.63% | 4.18 | 1,314 | 121.95 |
+| SP | 147,145.75 | 5.95% | 4.24 | 1,160 | 122.19 |
+| SP | 138,968.55 | 10.11% | 3.99 | 915 | 151.88 |
+| SP | 135,171.70 | 7.77% | 4.16 | 1,287 | 105.03 |
 
-## 6.4 Review Scores Should Be Interpreted with Other Metrics
+**Key findings:**
+- The highest displayed seller revenue is approximately **229.5K BRL**, followed by approximately **222.8K BRL**.
+- The BA seller shown has a late rate of **4.31%**, an average review score of **4.13**, and a seller AOV of **622.28 BRL**.
+- One SP seller generates approximately **200.5K BRL** across **1,806 orders**, with a late rate of **11.00%** and an average review score of **3.83**.
+- Another SP seller generates approximately **187.9K BRL** across **982 orders**, with an average review score of **3.49** and a late rate of **10.07%**.
+- The displayed seller observations show that high revenue does not always coincide with lower late rates or higher review scores.
 
-The overall average review score is 4.09. Repeat customers have a slightly higher displayed average score than non-repeat customers.
-
-**Recommended action:** Examine review scores together with delivery duration, late rate, category, and order volume. Avoid assuming that a small difference in average ratings explains customer retention.
-
-## 6.5 Seller Performance Requires Multiple Measures
-
-The seller page combines revenue, order volume, AOV, late rate, and review score.
-
-**Recommended action:** Use a balanced set of indicators to investigate seller performance rather than ranking sellers by revenue alone.
 
 ---
 
-# 7. KPI Definitions Summary
+## 3. Business Insights
 
-| KPI | Definition | Unit |
-|---|---|---|
-| Revenue | Total order-item revenue | Currency |
-| Total Order | Number of distinct orders | Orders |
-| AOV | Revenue divided by distinct order count | Currency per order |
-| Avg Review Score | Average customer review score | Score from 1 to 5 |
-| Repeat Rate | Percentage of unique customers with more than one order | Percentage |
-| Total Customer | Number of unique customers | Customers |
-| Customer Spend | Customer-level spending measure; confirm the exact calculation | Currency |
-| Delivery Days | Average time between purchase and delivery | Days |
-| Late Rate | Percentage of orders classified as late | Percentage |
-| Total Seller | Number of distinct sellers | Sellers |
-| Total Category | Number of distinct product categories | Categories |
+### Insight 1: Revenue Is Concentrated in Leading Product Categories
+- Health & Beauty generates approximately **1.26M BRL**.
+- Watches & Gifts follows at **1.21M BRL**.
+- Bed, Bath & Table generates approximately **1.04M BRL**.
+- The difference between the first- and second-ranked categories is approximately **50K BRL**.
+
+
+### Insight 2: Seller Revenue Does Not Guarantee a Better Customer Experience
+- One displayed SP seller generates approximately **200.5K BRL** from **1,806 orders**, with an **11.00% late rate** and a **3.83 average review score**.
+- Another displayed SP seller generates approximately **187.9K BRL**, with a **10.07% late rate** and a **3.49 average review score**.
+- The seller table therefore includes high-revenue observations with potential delivery or satisfaction concerns.
+
+
+### Insight 3: Seller Performance Varies Across Observations
+- The displayed seller table includes late rates ranging from approximately **4.31% to 11.57%** among the first few rows.
+- Average review scores in those rows range from **3.49 to 4.34**.
+- Seller AOV also varies considerably, from approximately **105.03 BRL to 622.28 BRL** in the displayed examples.
+
+
+### Insight 4: Delivery Lateness May Be Associated With Lower Review Scores
+- The scatter plot contains observations with late rates above **40%**, including some near **100%**.
+- Review scores vary across the displayed late-rate range.
+- The chart does not show a perfectly consistent relationship between lateness and review score.
+
+
+### Insight 5: A Large Seller Network Requires Consistent Monitoring
+- The dashboard includes **3,095 sellers**.
+- It covers **74 product categories**.
+- Total revenue is approximately **13.59M BRL**, with around **99K orders**.
+
 
 ---
 
-# 8. Validation Notes and Limitations
+## 4. Filter Definitions
 
-- KPI values depend on the selected filters and the report's relationships.
-- Confirm whether Revenue includes item price only or also freight charges.
-- Use distinct `order_id` values when counting orders.
-- Confirm the aggregation level used for review scores, delivery days, and late rates.
-- Define the customer population and repeat-purchase period explicitly.
-- `repeat_customer` and `repeat_90d` measure different behaviors and should not be treated as interchangeable.
-- Check the recency chart's percentage measure before interpreting its values.
-- State-level and seller-level patterns describe associations and do not establish causation.
-- Revenue does not represent profit unless costs are included in the calculation.
-- Confirm all DAX expressions against the actual Power BI data model before using them in production.
+| Filter | Definition |
+|---|---|
+| Year | Filters revenue, orders, and seller performance by the selected year, based on the date relationship configured in the data model. |
+| Month Number | Filters metrics and charts by the selected purchase month. |
+| Seller State | Filters seller-related metrics and performance by the seller's state. |
+
+
 
